@@ -20,10 +20,6 @@ jobs:
       url: https://${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
     steps:
-      - name: Set service URL
-        id: service-url
-        run: echo "::set-output name=url::${{ secrets.SERVICE_URL }}"
-
       - name: Checkout code
         uses: actions/checkout@master
         with:
@@ -53,7 +49,7 @@ jobs:
             test -f docker-compose.yml && docker-compose stop
             cat << EOF > .env
             DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
-            SERVICE_URL=${{ secrets.SERVICE_URL }}
+            SERVICE_URL=https://${{ github.event.inputs.environment }}
             ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
             ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}
             EOF

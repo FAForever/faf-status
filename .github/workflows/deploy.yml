@@ -3,12 +3,8 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
-      targetDir:
-        description: "Where on the server to deploy"
-        required: true
-        default: "/opt/faf-status"
-      targetHost:
-        description: "The domain name on which the service will be available"
+      environment:
+        description: "The environment to deploy to"
         required: true
         default: "status.faforever.com"
       gitRef:
@@ -17,13 +13,12 @@ on:
         default: "refs/heads/main"
 
 jobs:
-  deploy:
+  deploy_mj:
     name: Deploy
+    environment:
+      name: ${{ github.event.inputs.environment }}
+      url: ${{ secrets.SERVICE_URL }}
     runs-on: ubuntu-latest
-    env:
-      TARGET_HOST: ${{ github.event.inputs.targetHost }}
-      DOMAIN_NAME: ${{ github.event.inputs.targetHost }}
-      TARGET_DIR: ${{ github.event.inputs.targetDir }}
     steps:
       - name: Checkout code
         uses: actions/checkout@master
@@ -33,28 +28,29 @@ jobs:
       - name: Upload docker-compose.yml
         uses: appleboy/scp-action@8a54b394594637844fcf9ec5cab3eb97ce5dedae
         with:
-          host: ${{ env.TARGET_HOST }}
+          host: ${{ secrets.TARGET_HOSTS }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
           fingerprint: ${{ secrets.SSH_FINGERPRINT }}
           source: "docker-compose.yml,.env.template"
-          target: ${{ env.TARGET_DIR }}
+          target: ${{ secrets.TARGET_DIR }}
 
       - name: Deploy application
         uses: appleboy/ssh-action@1a8b3784eaa665f677fa114edd5683bb6a6bfaa8
         with:
-          host: ${{ env.TARGET_HOST }}
+          host: ${{ secrets.TARGET_HOSTS }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
           fingerprint: ${{ secrets.SSH_FINGERPRINT }}
           script: |
-            cd "${{ env.TARGET_DIR }}"
+            cd "${{ secrets.TARGET_DIR }}"
             test -f docker-compose.yml && docker-compose stop
             cat << EOF > .env
+            DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
+            SERVICE_URL=${{ secrets.SERVICE_URL }}
             ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
             ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}
-            DOMAIN_NAME=${{ env.DOMAIN_NAME }}
             EOF
             docker-compose up -d

@@ -59,7 +59,7 @@ services:
       - NAME=Forged Alliance Forever
       - DESCRIPTION=Status of FAF services
       - SAMPLE_DATA=false
-      - DOMAIN=https://${DOMAIN_NAME}
+      - SERVICE_URL
       - ADMIN_USER=admin
       - ADMIN_PASSWORD
       - ADMIN_EMAIL

@@ -25,13 +25,10 @@ jobs:
         with:
           ref: ${{ github.event.inputs.gitRef }}
 
-      - name: Lookup target host
-        run: nslookup status.faf.micheljung.ch
-
       - name: Upload docker-compose.yml
         uses: appleboy/scp-action@8a54b394594637844fcf9ec5cab3eb97ce5dedae
         with:
-          host: ${{ secrets.TARGET_HOSTS }}
+          host: status.faf.micheljung.ch
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}

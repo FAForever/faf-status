@@ -28,7 +28,7 @@ jobs:
       - name: Upload docker-compose.yml
         uses: appleboy/scp-action@8a54b394594637844fcf9ec5cab3eb97ce5dedae
         with:
-          host: status.faf.micheljung.ch
+          host: "${{ secrets.TARGET_HOSTS }}"
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
@@ -39,7 +39,7 @@ jobs:
       - name: Deploy application
         uses: appleboy/ssh-action@1a8b3784eaa665f677fa114edd5683bb6a6bfaa8
         with:
-          host: ${{ secrets.TARGET_HOSTS }}
+          host: "${{ secrets.TARGET_HOSTS }}"
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}

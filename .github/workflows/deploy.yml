@@ -28,22 +28,22 @@ jobs:
       - name: Upload docker-compose.yml
         uses: appleboy/scp-action@8a54b394594637844fcf9ec5cab3eb97ce5dedae
         with:
-          host: "${{ secrets.TARGET_HOSTS }}"
+          host: status.faf.micheljung.ch
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
-          fingerprint: ${{ secrets.SSH_FINGERPRINT }}
+          fingerprint: SHA256:1ja/iUXohuqd9L6/0IlYHYjJx8wQnan0Vff6Ot+OePI
           source: "docker-compose.yml,.env.template"
           target: ${{ secrets.TARGET_DIR }}
 
       - name: Deploy application
         uses: appleboy/ssh-action@1a8b3784eaa665f677fa114edd5683bb6a6bfaa8
         with:
-          host: "${{ secrets.TARGET_HOSTS }}"
+          host: status.faf.micheljung.ch
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
-          fingerprint: ${{ secrets.SSH_FINGERPRINT }}
+          fingerprint: SHA256:1ja/iUXohuqd9L6/0IlYHYjJx8wQnan0Vff6Ot+OePI
           script: |
             cd "${{ secrets.TARGET_DIR }}"
             test -f docker-compose.yml && docker-compose stop

@@ -48,7 +48,7 @@ jobs:
             cd "${{ secrets.TARGET_DIR }}"
             test -f docker-compose.yml && docker-compose stop
             cat << EOF > .env
-            DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
+            DOMAIN_NAME=${{ github.event.inputs.environment }}
             SERVICE_URL=https://${{ github.event.inputs.environment }}
             ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
             ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}

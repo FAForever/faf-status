@@ -38,24 +38,11 @@ services:
 #      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
 #      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
-  postgres:
-    image: postgres
-    restart: always
-    networks:
-      - default
-    environment:
-      POSTGRES_PASSWORD: postgres
-
   statping:
     image: adamboutcher/statping-ng:v0.90.77
     restart: always
     environment:
-      - DB_CONN=postgres
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASS=postgres
-      - DB_DATABASE=postgres
+      - DB_CONN=sqlite
       - NAME=Forged Alliance Forever
       - DESCRIPTION=Status of FAF services
       - SAMPLE_DATA=false

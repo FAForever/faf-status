@@ -34,6 +34,7 @@ jobs:
         uses: appleboy/scp-action@8a54b394594637844fcf9ec5cab3eb97ce5dedae
         with:
           host: ${{ env.TARGET_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
           fingerprint: ${{ secrets.SSH_FINGERPRINT }}
@@ -44,6 +45,7 @@ jobs:
         uses: appleboy/ssh-action@1a8b3784eaa665f677fa114edd5683bb6a6bfaa8
         with:
           host: ${{ env.TARGET_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
           fingerprint: ${{ secrets.SSH_FINGERPRINT }}

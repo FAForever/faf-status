@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
-          fingerprint: SHA256:1ja/iUXohuqd9L6/0IlYHYjJx8wQnan0Vff6Ot+OePI
+          fingerprint: "SHA256:1ja/iUXohuqd9L6/0IlYHYjJx8wQnan0Vff6Ot+OePI"
           source: "docker-compose.yml,.env.template"
           target: ${{ secrets.TARGET_DIR }}
 
@@ -43,7 +43,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
-          fingerprint: SHA256:1ja/iUXohuqd9L6/0IlYHYjJx8wQnan0Vff6Ot+OePI
+          fingerprint: "SHA256:1ja/iUXohuqd9L6/0IlYHYjJx8wQnan0Vff6Ot+OePI"
           script: |
             cd "${{ secrets.TARGET_DIR }}"
             test -f docker-compose.yml && docker-compose stop

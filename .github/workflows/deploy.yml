@@ -56,7 +56,14 @@ jobs:
             EOF
             docker-compose up -d
 
-            services=$(sqlite3 data/statping/statping.db "select count(*) from services")
+            tries=10
+            until services=$(sqlite3 data/statping/statping.db "select count(*) from services")
+            do
+               sleep 1
+               [[ tries -lt 1 ]] && echo "Could not read statping.db" && exit 1
+               ((tries--))
+            done
+
             test $services -gt 0 || \
               API_URL=https://${{ github.event.inputs.environment }}/api \
               API_SECRET=${{ secrets.API_SECRET }} \

@@ -27,7 +27,6 @@ def create_group(name, service_creators):
         verify=False
     )
 
-    print("Response: " + response.json())
     group_id = response.json()['id']
     for service_creator in service_creators:
         service_order += 1

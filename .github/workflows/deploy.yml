@@ -25,7 +25,7 @@ jobs:
         with:
           ref: ${{ github.event.inputs.gitRef }}
 
-      - name: Upload docker-compose.yml
+      - name: Upload Files
         uses: appleboy/scp-action@8a54b394594637844fcf9ec5cab3eb97ce5dedae
         with:
           host: status.faf.micheljung.ch
@@ -33,7 +33,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}
           fingerprint: ${{ secrets.SSH_FINGERPRINT }}
-          source: "docker-compose.yml,.env.template"
+          source: "docker-compose.yml,init.py"
           target: ${{ secrets.TARGET_DIR }}
 
       - name: Deploy application

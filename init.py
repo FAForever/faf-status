@@ -4,6 +4,9 @@ import os
 import time
 
 import requests
+import urllib3
+
+urllib3.disable_warnings()
 
 API_URL = os.environ['API_URL']
 API_SECRET = os.environ['API_SECRET']

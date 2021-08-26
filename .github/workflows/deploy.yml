@@ -52,5 +52,12 @@ jobs:
             SERVICE_URL=https://${{ github.event.inputs.environment }}
             ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}
             ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }}
+            API_SECRET=${{ secrets.API_SECRET }}
             EOF
             docker-compose up -d
+
+            services=$(sqlite3 data/statping/statping.db "select count(*) from services")
+            test $services -gt 0 || \
+              API_URL=https://${{ github.event.inputs.environment }}/api \
+              API_SECRET=${{ secrets.API_SECRET }} \
+              python3 init.py

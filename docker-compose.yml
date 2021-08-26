@@ -50,6 +50,7 @@ services:
       - ADMIN_USER=admin
       - ADMIN_PASSWORD
       - ADMIN_EMAIL
+      - API_SECRET
       - USE_CDN=false
       - POSTGRES_SSLMODE=disable
       - DISABLE_LOGS=false
@@ -63,5 +64,4 @@ services:
       - "traefik.http.routers.statping.tls.certresolver=leresolver"
       - "traefik.http.routers.statping.entrypoints=web,websecure"
       - "traefik.http.services.statping.loadbalancer.server.port=8080"
-
 

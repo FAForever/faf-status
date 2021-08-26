@@ -112,12 +112,12 @@ def wait_for_api():
     while tries >= 0:
         # noinspection PyBroadException
         try:
-            response = requests.get("{}/health".format(API_URL), timeout=10)
+            response = requests.get("{}/health".format(API_URL), timeout=10, verify=False)
             if response.status_code == 200:
                 return
         except Exception:
             if tries == 0:
-                raise "API at {} did not respond in time".format(API_URL)
+                raise Exception("API at {} did not respond in time".format(API_URL))
 
         time.sleep(sleep)
         tries -= 1
